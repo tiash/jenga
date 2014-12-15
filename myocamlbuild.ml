@@ -25,9 +25,14 @@ let dispatch = function
         let ocamlopt = Command.search_in_path "ocamlopt.opt" in
         let camlp4o = Command.search_in_path "camlp4o.opt" in
         let cmi_list =
-          stdlib / "pervasives.cmi"
-          :: "lib/jenga_lib.cmi"
-          :: List.map (fun pkg -> (Findlib.query pkg).Findlib.location / pkg ^ ".cmi") [
+          [ "lib/jenga_lib.cmi" ]
+          @ List.map (fun pkg -> stdlib / (pkg ^ ".cmi")) [
+            "pervasives";
+            "camlinternalFormatBasics";
+            "camlinternalFormat";
+            "digest";
+          ]
+          @ List.map (fun pkg -> (Findlib.query pkg).Findlib.location / pkg ^ ".cmi") [
             "core";
             "core_kernel";
             "async";
